@@ -1,4 +1,4 @@
-# Investing-Starter
+# InvestoPal
 An Android application aimed at helping people to start their investing journey. Customers can use this app to get familiar with different areas of investing by reading starting guides and viewing recommanded starting options based on their areas of interest and other factors such as risk tolerance. In addition customers can build a profolio with this app as a central hub for keeping track of their investing progress, and the app will keep the users updated on news and analytics related to the customer's areas of investments. 
 
 Disclaimer:
