@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/trend"
+        android:title="Trend"
+        android:icon="@drawable/ic_trend"/>
+    <item
+        android:id="@+id/learn"
+        android:title="Learn"
+        android:icon="@drawable/ic_learn"/>
+    <item
+        android:id="@+id/portfolio"
+        android:title="Portfolio"
+        android:icon="@drawable/ic_portfolio"/>
+    <item
+        android:id="@+id/search"
+        android:title="Search"
+        android:icon="@drawable/ic_search"/>
+</menu>
