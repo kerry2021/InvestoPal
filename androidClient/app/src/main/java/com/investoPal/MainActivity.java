@@ -3,7 +3,9 @@ package com.investoPal;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -19,16 +21,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.trend);
-    }
 
-    TrendFragment trendFragment = new TrendFragment();
+        Log.d("connection", "starting to connect");
+        ServerConnector connector = new ServerConnector("kerry");
+        connector.execute();
+
+    }
 
     //specifies the actions for each button clicks on the bottom navigation bar
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.trend:
-                getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, trendFragment).commit();
+                Intent intent = new Intent(this, TrendActivity.class);
+                startActivity(intent);
                 return true;
         }
         return false;
