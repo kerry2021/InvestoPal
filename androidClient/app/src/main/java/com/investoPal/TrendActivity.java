@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,24 +15,41 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class TrendActivity extends AppCompatActivity {
+public class TrendActivity extends AppCompatActivity implements NetworkUser {
 
-    public TrendActivity() {
+    public TrendActivity() {        
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    protected void onCreate(Bundle savedInstanceState) {        
         super.onCreate(savedInstanceState);
-        setContentView(getMainView());
+        setContentView(R.layout.loading);
+        
+        Log.d("connection", "starting to connect");
+        ServerConnector connector = new ServerConnector(this, "kerry");
+        connector.execute();
+    }
+
+    @Override
+    public void OnMessageReceived(String Message) {
+        Log.d("connection", "Received from Server:" + Message);
+
+        //updates the UI based on information received
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setContentView(updateMainView());
+            }
+
+        });
     }
 
 
     //--------------------------------------------------------------------------------------------
-    //helper functions
+    //helper functions for constructing UI
 
 
-    private ScrollView getMainView(){
+    private ScrollView updateMainView() {
         //sets up the overall view to display based on the data array we get from the server
 
         /*
@@ -56,7 +74,7 @@ public class TrendActivity extends AppCompatActivity {
         testArray.add(View2Array);
 
         int previousViewId = -1;
-        for(int i = 0; i < testArray.size(); i++){
+        for (int i = 0; i < testArray.size(); i++) {
             String[] ViewParams = (String[]) testArray.get(i);
             String viewType = ViewParams[0];
             String text = ViewParams[1];
@@ -65,23 +83,21 @@ public class TrendActivity extends AppCompatActivity {
             // we create a seperate view for each part and link them together relatively in MainViewLayout
             View viewSegment;
 
-            if(viewType.equals("image")){
+            if (viewType.equals("image")) {
                 String image_name = ViewParams[2];
                 viewSegment = new TextAndImageView(text, image_name, this);
-            }
-            else{
+            } else {
                 viewSegment = setupArticleView(text);
             }
 
-            if(previousViewId != -1){
+            if (previousViewId != -1) {
                 //case where this is not the first view created
                 //This is the part to define the relative position of this view compared to the previous view
                 ViewGroup.LayoutParams originParam = viewSegment.getLayoutParams();
                 RelativeLayout.LayoutParams viewSegParam = new RelativeLayout.LayoutParams(originParam.width, originParam.height);
                 viewSegParam.addRule(RelativeLayout.BELOW, previousViewId);
                 mainViewLayout.addView(viewSegment, viewSegParam);
-            }
-            else{
+            } else {
                 //case where this is the first view
                 mainViewLayout.addView(viewSegment);
             }
@@ -94,7 +110,7 @@ public class TrendActivity extends AppCompatActivity {
     }
 
 
-    private TextView setupArticleView(String articleName){
+    private TextView setupArticleView(String articleName) {
         //set up a view to display only the article name and a black frame around the name
         TextView title = new TextView(this);
         title.setLayoutParams(new ViewGroup.LayoutParams(
@@ -104,6 +120,6 @@ public class TrendActivity extends AppCompatActivity {
         title.setBackgroundResource(getResources().getIdentifier("border", "drawable", this.getPackageName()));
         return title;
     }
-
 }
+
 

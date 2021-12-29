@@ -22,10 +22,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.trend);
 
-        Log.d("connection", "starting to connect");
-        ServerConnector connector = new ServerConnector("kerry");
-        connector.execute();
-
     }
 
     //specifies the actions for each button clicks on the bottom navigation bar
